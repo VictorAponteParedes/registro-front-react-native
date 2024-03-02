@@ -1,7 +1,8 @@
 // api.js
 import axios from "axios";
-const ipMaquina = "192.168.0.100";
+const ipMaquina = "192.168.0.6";
 const localhostMaquina = "localhost";
+import { Usuario } from "../../interface/usuario.interface";
 
 const API_URL = `http://${ipMaquina}:3000/app/registro`;
 
@@ -20,9 +21,24 @@ export const registerUser = async (userData: any) => {
   }
 };
 
+// export const obtenerUsuario = async (userData) => {
+//   try {
+//     const response = await axios.get(`${API_URL}/${userData._id}`, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error al obtener usuario:", error);
+//     throw error;
+//   }
+// };
+
 export const obtenerUsuarios = async () => {
   try {
     const response = await axios.get(API_URL);
+    console.log("Todos los usuarios: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener la lista de usuarios:", error);
@@ -48,7 +64,7 @@ export const updateUser = async (userData) => {
   try {
     const response = await axios.put(`${API_URL}/${userData._id}`, userData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     });
 
