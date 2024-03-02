@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Text, Image, View, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import globalStyles from "../styles/globalStyles";
 
 const ImageInputField = ({ onImageSelected }) => {
   const [image, setImage] = useState(null);
@@ -16,6 +17,7 @@ const ImageInputField = ({ onImageSelected }) => {
       });
 
       if (!result.cancelled) {
+        console.log("Imagen seleccionada:", result.assets[0].uri);
         setImage(result.assets[0].uri);
         onImageSelected(result.assets[0].uri);
       }
@@ -25,43 +27,25 @@ const ImageInputField = ({ onImageSelected }) => {
   };
 
   return (
-    <View style={styles.input}>
+    <View style={globalStyles.input}>
       <TouchableOpacity onPress={pickImage}>
-        <View style={styles.buttonContainer}>
+        <View style={globalStyles.buttonContainer}>
           {!image && (
             <>
               <Icon name="image" size={20} color="#226b5e" />
-              <Text style={styles.buttonText}>Seleccionar Imagen</Text>
+              <Text style={globalStyles.buttonText}>Seleccionar Imagen</Text>
             </>
           )}
           {image && (
             <>
               <Icon name="image" size={20} color="#226b5e" />
-              <Text style={styles.buttonText}>Imagen Seleccionada</Text>
+              <Text style={globalStyles.buttonText}>Imagen Seleccionada</Text>
             </>
           )}
         </View>
       </TouchableOpacity>
     </View>
   );
-};
-
-const styles = {
-  input: {
-    marginBottom: 10,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  buttonText: {
-    marginLeft: 5,
-    color: "#ccc",
-  },
 };
 
 export default ImageInputField;
