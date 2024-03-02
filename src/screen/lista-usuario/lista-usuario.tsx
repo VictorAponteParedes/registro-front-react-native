@@ -8,14 +8,15 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { deleteUser, obtenerUsuarios } from "../../services/api/api.registro";
 import { useNavigation } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
 
-const ListaUsuariosScreen: React.FC = () => {
+const ListaUsuariosScreen: React.FC = ({ route, navigation }) => {
   const [usuarios, setUsuarios] = useState([]);
-  const navigation = useNavigation();
 
   useEffect(() => {
     const fetData = async () => {
@@ -40,111 +41,98 @@ const ListaUsuariosScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Lista de Usuarios Registrados</Text>
+    <ImageBackground
+      source={require("../../img/abogada.jpg")}
+      style={globalStyles.backgroundImage}>
+      <ScrollView>
+        <View style={globalStyles.containerListaUsuario}>
+          <Text style={globalStyles.title}>Lista de Usuarios Registrados</Text>
 
-        {usuarios.length > 0 ? (
-          usuarios.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                console.log("Este usuario es: ", item.nombre, item.apellido);
-              }}>
-              <View style={styles.usuarioItem}>
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    {item.imagen && (
-                      <Image
-                        source={{ uri: item.imagen }}
-                        style={{
-                          width: 50,
-                          height: 50,
-                          borderRadius: 25,
-                          marginRight: 8,
-                        }}
-                      />
-                    )}
-                    <Text>{`${item.nombre} ${item.apellido}`}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Icon name="envelope" solid style={{ marginRight: 8 }} />
-                    <Text>{`${item.correo}`}</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginTop: 5,
-                  }}>
+          {usuarios.length > 0 ? (
+            usuarios.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  navigation.navigate("DetalleUsuario", {
+                    usuario: item,
+                  });
+                }}>
+                <View style={globalStyles.usuarioItem}>
                   <View>
-                    <Button
-                      color="blue"
-                      title="Actualizar"
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}>
+                      {item.imagen && (
+                        <Image
+                          source={{ uri: item.imagen }}
+                          style={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: 25,
+                            marginRight: 8,
+                          }}
+                        />
+                      )}
+                    </View>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}>
+                      <Icon name="user" solid style={{ marginRight: 8 }} />
+                      <Text>{`${item.nombre} ${item.apellido}`}</Text>
+                    </View>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}>
+                      <Icon name="envelope" solid style={{ marginRight: 8 }} />
+                      <Text>{`${item.correo}`}</Text>
+                    </View>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      style={{
+                        ...globalStyles.button,
+                        borderRadius: 10,
+                        marginTop: 20,
+                      }}
                       onPress={() => {
                         navigation.navigate("ActulizarUsuarios", {
                           usuario: item,
                         });
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <Button
-                      color="#ff5c5c"
-                      title="Eliminar"
-                      onPress={() => {
-                        handleDeleteUser(item._id);
-                        navigation.navigate("ListaUsuarios");
-                      }}
-                    />
+                      }}>
+                      <Text
+                        style={{
+                          color: "#fff",
+                          textAlign: "center",
+                          fontSize: 16,
+                        }}>
+                        Actualizar
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text>No hay usuarios registrados.</Text>
-        )}
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text>No hay usuarios registrados.</Text>
+          )}
 
-        <View>
-          <Button
-            color="#226b5e"
-            title="Registro"
-            onPress={() => navigation.navigate("Registro")}
-          />
+          <TouchableOpacity
+            style={{ ...globalStyles.button, borderRadius: 10 }}
+            onPress={() => navigation.navigate("Registro")}>
+            <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
+              Registro
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...globalStyles.registroStilo, borderRadius: 10 }}
+            onPress={() => {
+              navigation.navigate("Registro");
+            }}>
+            <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
+              Atras
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: "auto",
-    justifyContent: "center",
-    padding: 16,
-    backgroundColor: "#f1f1f1",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  usuarioItem: {
-    marginBottom: 12,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#226b5e",
-    borderRadius: 4,
-    display: "flex",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-  },
-  botonEliminar: {
-    backgroundColor: "#ffcccc",
-  },
-});
 
 export default ListaUsuariosScreen;
