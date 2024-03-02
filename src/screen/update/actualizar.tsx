@@ -1,7 +1,17 @@
 import React, { useEffect } from "react";
-import { View, TextInput, Button, StyleSheet, Text, Alert } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Text,
+  Alert,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { updateUser } from "../../services/api/api.registro";
+import globalStyles from "../../styles/globalStyles";
 import ImageInputField from "../../components/ImageInputField";
 
 const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
@@ -15,14 +25,12 @@ const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
         nombre: usuarioNombre,
         apellido: usuarioApellido,
         contrasena: usuarioContrasena,
-        imagen: usuarioImange,
       } = usuario;
 
       setValue("nombre", usuarioNombre || "");
       setValue("apellido", usuarioApellido || "");
       setValue("correo", usuarioCorreo || "");
       setValue("contrasena", usuarioContrasena || "");
-      setValue("imagen", usuarioImange || "");
     }
   }, [usuario, setValue]);
 
@@ -33,7 +41,6 @@ const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
         correo: data.correo,
         nombre: data.nombre,
         apellido: data.apellido,
-        imagen: data.imagen,
       };
 
       await updateUser(usuarioActualizado);
@@ -47,92 +54,74 @@ const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Editar Usuario</Text>
+    <ImageBackground
+      source={require("../../img/abogada.jpg")}
+      style={globalStyles.backgroundImage}>
+      <View style={globalStyles.containerLogin}>
+        <Text style={globalStyles.title}>Editar Usuario</Text>
 
-      <Controller
-        control={control}
-        render={({ field }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Nombre"
-            value={field.value}
-            onChangeText={field.onChange}
-          />
-        )}
-        name="nombre"
-        defaultValue=""
-      />
+        <Controller
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              style={globalStyles.input}
+              placeholder="Nombre"
+              value={field.value}
+              onChangeText={field.onChange}
+            />
+          )}
+          name="nombre"
+          defaultValue=""
+        />
 
-      <Controller
-        control={control}
-        render={({ field }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Apellido"
-            value={field.value}
-            onChangeText={field.onChange}
-          />
-        )}
-        name="apellido"
-        defaultValue=""
-      />
+        <Controller
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              style={globalStyles.input}
+              placeholder="Apellido"
+              value={field.value}
+              onChangeText={field.onChange}
+            />
+          )}
+          name="apellido"
+          defaultValue=""
+        />
 
-      <Controller
-        control={control}
-        render={({ field }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Correo electrónico"
-            keyboardType="email-address"
-            value={field.value}
-            onChangeText={field.onChange}
-          />
-        )}
-        name="correo"
-        defaultValue=""
-      />
+        <Controller
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              style={globalStyles.input}
+              placeholder="Correo electrónico"
+              keyboardType="email-address"
+              value={field.value}
+              onChangeText={field.onChange}
+            />
+          )}
+          name="correo"
+          defaultValue=""
+        />
 
-      <Controller
-        control={control}
-        render={({ field }) => (
-          <ImageInputField
-            onImageSelected={(imageUri) => {
-              field.onChange(imageUri);
-              setValue("imagen", imageUri);
-            }}
-          />
-        )}
-        name="imagen"
-        rules={{ required: true }}
-      />
-      <Button
-        title="Actualizar Usuario"
-        color="#226b5e"
-        onPress={handleSubmit(onSubmit)}
-      />
-    </View>
+        <TouchableOpacity
+          style={{ ...globalStyles.button, borderRadius: 10 }}
+          onPress={handleSubmit(onSubmit)}>
+          <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
+            Actualizar Usuario
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ ...globalStyles.registroStilo, borderRadius: 10 }}
+          onPress={() => {
+            navigation.navigate("ListaUsuarios");
+          }}>
+          <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
+            Cancelar
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  input: {
-    marginBottom: 12,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-  },
-});
 
 export default ActualizarUsuarioScreen;
