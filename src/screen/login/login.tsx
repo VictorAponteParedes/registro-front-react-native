@@ -13,6 +13,8 @@ import { loginUser } from "../../services/api/api.login";
 import InputField from "../../components/InputField";
 import globalStyles from "../../styles/globalStyles";
 import React from "react";
+import PasswordInputField from "../../components/PasswordInputField";
+import Toast from "react-native-toast-message";
 
 export const LoginUsuario = () => {
   const navigation = useNavigation();
@@ -30,7 +32,18 @@ export const LoginUsuario = () => {
   const onSubmit = async (data: any) => {
     try {
       const response = await loginUser(data);
-      Alert.alert("usuario logueado exitosamente.");
+      Toast.show({
+        type: "success",
+        text1: "¡Éxito!",
+        text2: "Usuario logueado correctamente",
+        text2Style: {
+          fontSize: 13,
+        },
+        topOffset: 110,
+        onHide: () => {
+          reset();
+        },
+      });
 
       reset();
     } catch (error) {
@@ -52,7 +65,7 @@ export const LoginUsuario = () => {
             placeholder="Correo electrónico"
             rules={{ required: true }}
           />
-          <InputField
+          <PasswordInputField
             control={control}
             name="contrasena"
             placeholder="Contraseña"

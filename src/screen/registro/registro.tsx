@@ -18,6 +18,7 @@ import InputField from "../../components/InputField";
 import ImageInputField from "../../components/ImageInputField";
 import ModalMensaje from "../../components/modal-mensaje";
 import Toast from "react-native-toast-message";
+import PasswordInputField from "../../components/PasswordInputField";
 
 const RegistroScreen: React.FC = ({ navigation }) => {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -36,7 +37,6 @@ const RegistroScreen: React.FC = ({ navigation }) => {
   const onSubmit = async (data: any) => {
     try {
       await registerUser(data);
-
       Toast.show({
         type: "success",
         text1: "¡Éxito!",
@@ -121,7 +121,7 @@ const RegistroScreen: React.FC = ({ navigation }) => {
             placeholder="Correo electrónico"
             rules={{ required: true }}
           />
-          <InputField
+          <PasswordInputField
             control={control}
             name="contrasena"
             placeholder="Contraseña"
