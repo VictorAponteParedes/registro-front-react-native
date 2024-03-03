@@ -12,11 +12,16 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { deleteUser, obtenerUsuarios } from "../../services/api/api.registro";
-import { useNavigation } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 
 const ListaUsuariosScreen: React.FC = ({ route, navigation }) => {
   const [usuarios, setUsuarios] = useState([]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Lista de usuarios",
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const fetData = async () => {

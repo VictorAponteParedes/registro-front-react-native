@@ -16,8 +16,13 @@ import React from "react";
 import PasswordInputField from "../../components/PasswordInputField";
 import Toast from "react-native-toast-message";
 
-export const LoginUsuario = () => {
-  const navigation = useNavigation();
+export const LoginUsuario = ({ navigation }) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Iniciar Sesión",
+    });
+  }, [navigation]);
+
   const {
     handleSubmit,
     register,

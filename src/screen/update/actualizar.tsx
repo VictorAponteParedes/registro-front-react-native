@@ -19,6 +19,12 @@ const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
   const { control, handleSubmit, setValue } = useForm();
   const { usuario } = route.params;
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Actualizar usuarios",
+    });
+  }, [navigation]);
+
   useEffect(() => {
     if (usuario) {
       const {

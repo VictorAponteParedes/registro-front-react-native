@@ -22,6 +22,12 @@ const DetalleUsuario: React.FC = ({ route, navigation }) => {
   const { control, handleSubmit, setValue } = useForm();
   const { usuario } = route.params;
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Detalle del usuario",
+    });
+  }, [navigation]);
+
   const handleDeleteUser = async (userId: any) => {
     try {
       await deleteUser(userId);
