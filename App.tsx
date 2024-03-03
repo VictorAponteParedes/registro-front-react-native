@@ -1,6 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import Toast from "react-native-toast-message";
 
 import RegistroScreen from "./src/screen/registro/registro";
 import ListaUsuariosScreen from "./src/screen/lista-usuario/lista-usuario";
@@ -23,6 +24,7 @@ export default function App() {
           component={ActualizarUsuarioScreen}
         />
       </Stack.Navigator>
+      <Toast />
     </NavigationContainer>
   );
 }

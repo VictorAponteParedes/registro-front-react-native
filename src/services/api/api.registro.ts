@@ -1,6 +1,6 @@
 // api.js
 import axios from "axios";
-const ipMaquina = "192.168.0.6";
+const ipMaquina = "192.168.0.100";
 const localhostMaquina = "localhost";
 import { Usuario } from "../../interface/usuario.interface";
 
@@ -16,7 +16,6 @@ export const registerUser = async (userData: any) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error al registrar usuario:", error);
     throw error;
   }
 };
@@ -38,7 +37,6 @@ export const registerUser = async (userData: any) => {
 export const obtenerUsuarios = async () => {
   try {
     const response = await axios.get(API_URL);
-    console.log("Todos los usuarios: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener la lista de usuarios:", error);

@@ -16,6 +16,7 @@ import InputField from "../../components/InputField";
 import globalStyles from "../../styles/globalStyles";
 import { useForm } from "react-hook-form";
 import { deleteUser, updateUser } from "../../services/api/api.registro";
+import Toast from "react-native-toast-message";
 
 const DetalleUsuario: React.FC = ({ route, navigation }) => {
   const { control, handleSubmit, setValue } = useForm();
@@ -24,7 +25,15 @@ const DetalleUsuario: React.FC = ({ route, navigation }) => {
   const handleDeleteUser = async (userId: any) => {
     try {
       await deleteUser(userId);
-      Alert.alert("Usuario eliminado correctamente.");
+      Toast.show({
+        type: "success",
+        text1: "¡Éxito!",
+        text2: "Usuario eliminado correctamente.",
+        text2Style: {
+          fontSize: 13,
+        },
+        topOffset: 110,
+      });
     } catch (error) {
       console.error("Error al eliminar usuario:", error);
       Alert.alert("Error al eliminar usuario. Por favor, intenta de nuevo.");

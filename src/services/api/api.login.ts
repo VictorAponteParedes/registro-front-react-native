@@ -1,5 +1,5 @@
 import axios from "axios";
-const ipMaquina = "192.168.0.06";
+const ipMaquina = "192.168.0.100";
 const localhostMaquina = "localhost";
 
 const API_URL = `http://${ipMaquina}:3000/app/login`;

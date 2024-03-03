@@ -13,16 +13,14 @@ import {
 } from "react-native";
 import globalStyles from "../../styles/globalStyles";
 import { registerUser } from "../../services/api/api.registro";
-import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import InputField from "../../components/InputField";
 import ImageInputField from "../../components/ImageInputField";
 import ModalMensaje from "../../components/modal-mensaje";
+import Toast from "react-native-toast-message";
 
-const RegistroScreen: React.FC = () => {
+const RegistroScreen: React.FC = ({ navigation }) => {
   const [isSignUp, setIsSignUp] = useState(true);
-  const [usuarioCreado, setUsuarioCreado] = useState(false);
-  const navigation = useNavigation();
 
   const {
     handleSubmit,
@@ -38,31 +36,63 @@ const RegistroScreen: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       await registerUser(data);
-      setUsuarioCreado(true);
-      reset();
-    } catch (error) {
-      console.error("Error en la aplicación:", error);
 
+      Toast.show({
+        type: "success",
+        text1: "¡Éxito!",
+        text2: "Usuario creado correctamente",
+        text2Style: {
+          fontSize: 13,
+        },
+        topOffset: 110,
+        onHide: () => {
+          reset();
+        },
+      });
+    } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
-          Alert.alert("Error: El usuario ya existe");
+          Toast.show({
+            type: "error",
+            text1: "¡Error!",
+            text2: "El usuario ya existe.",
+            text2Style: {
+              fontSize: 13,
+            },
+            topOffset: 110,
+          });
         } else if (error.response.data && error.response.data.message) {
           Alert.alert(`Error: ${error.response.data.message}`);
         } else {
-          Alert.alert("Error en la aplicación. Por favor, intenta de nuevo.");
+          Toast.show({
+            type: "error",
+            text1: "¡Error!",
+            text2: "Error en la aplicación. Por favor, intenta de nuevo.",
+            text2Style: {
+              fontSize: 13,
+            },
+            topOffset: 110,
+          });
         }
       } else {
-        Alert.alert("Error en la aplicación. Por favor, intenta de nuevo.");
+        Toast.show({
+          type: "error",
+          text1: "¡Error!",
+          text2: "Error en la aplicación. Por favor, intenta de nuevo.",
+          text2Style: {
+            fontSize: 13,
+          },
+          topOffset: 110,
+          onHide: () => {
+            reset();
+          },
+        });
       }
     }
   };
 
   const toggleSignUp = () => {
     navigation.navigate("LoginUsuario");
-  };
-
-  const closeModal = () => {
-    setUsuarioCreado(false);
   };
 
   return (
@@ -136,21 +166,6 @@ const RegistroScreen: React.FC = () => {
               </Text>
             </Text>
           </View>
-          {usuarioCreado && (
-            <TouchableWithoutFeedback onPress={closeModal}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}>
-                <ModalMensaje
-                  mensaje={"Usuario creado correctamente"}
-                  iconNombre={"star"}
-                />
-              </View>
-            </TouchableWithoutFeedback>
-          )}
         </View>
       </ImageBackground>
     </>

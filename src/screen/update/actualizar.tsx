@@ -13,6 +13,7 @@ import { useForm, Controller } from "react-hook-form";
 import { updateUser } from "../../services/api/api.registro";
 import globalStyles from "../../styles/globalStyles";
 import ImageInputField from "../../components/ImageInputField";
+import Toast from "react-native-toast-message";
 
 const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
   const { control, handleSubmit, setValue } = useForm();
@@ -44,7 +45,15 @@ const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
       };
 
       await updateUser(usuarioActualizado);
-      Alert.alert("Usuario actualizado correctamente.");
+      Toast.show({
+        type: "success",
+        text1: "¡Éxito!",
+        text2: "Usuario actualizado correctamente.",
+        text2Style: {
+          fontSize: 13,
+        },
+        topOffset: 110,
+      });
 
       navigation.navigate("ListaUsuarios");
     } catch (error) {
