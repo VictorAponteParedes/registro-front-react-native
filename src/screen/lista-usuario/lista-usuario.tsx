@@ -23,36 +23,32 @@ const ListaUsuariosScreen: React.FC = ({ route, navigation }) => {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    const fetData = async () => {
-      try {
-        const response = await obtenerUsuarios();
-        setUsuarios(response);
-      } catch (e) {
-        console.log("Error al obtener los usuarios: ", e);
-      }
-    };
-    fetData();
-  }, []);
-
-  const handleDeleteUser = async (userId: any) => {
+  const fetData = async () => {
     try {
-      await deleteUser(userId);
-      Alert.alert("Usuario eliminado correctamente.");
-    } catch (error) {
-      console.error("Error al eliminar usuario:", error);
-      Alert.alert("Error al eliminar usuario. Por favor, intenta de nuevo.");
+      const response = await obtenerUsuarios();
+      setUsuarios(response);
+    } catch (e) {
+      console.log("Error al obtener los usuarios: ", e);
     }
   };
+
+  useEffect(() => {
+    fetData();
+    const focusSubscription = navigation.addListener("focus", () => {
+      fetData();
+    });
+
+    return () => {
+      focusSubscription();
+    };
+  }, [navigation]);
 
   return (
     <ImageBackground
       source={require("../../img/abogada.jpg")}
       style={globalStyles.backgroundImage}>
-      <ScrollView>
-        <View style={globalStyles.containerListaUsuario}>
-          <Text style={globalStyles.title}>Lista de Usuarios Registrados</Text>
-
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View className="flex-1 w-96 py-3">
           {usuarios.length > 0 ? (
             usuarios.map((item, index) => (
               <TouchableOpacity
@@ -62,7 +58,7 @@ const ListaUsuariosScreen: React.FC = ({ route, navigation }) => {
                     usuario: item,
                   });
                 }}>
-                <View style={globalStyles.usuarioItem}>
+                <View className="bg-white w-96 h-28 border border-green-700 rounded-xl py-2 px-5 my-2">
                   <View>
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}>
@@ -89,35 +85,14 @@ const ListaUsuariosScreen: React.FC = ({ route, navigation }) => {
                       <Text>{`${item.correo}`}</Text>
                     </View>
                   </View>
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        ...globalStyles.button,
-                        borderRadius: 10,
-                        marginTop: 20,
-                      }}
-                      onPress={() => {
-                        navigation.navigate("ActulizarUsuarios", {
-                          usuario: item,
-                        });
-                      }}>
-                      <Text
-                        style={{
-                          color: "#fff",
-                          textAlign: "center",
-                          fontSize: 16,
-                        }}>
-                        Actualizar
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
                 </View>
               </TouchableOpacity>
             ))
           ) : (
             <Text>No hay usuarios registrados.</Text>
           )}
-
+        </View>
+        <View className="flex-1 w-96 ">
           <TouchableOpacity
             style={{ ...globalStyles.button, borderRadius: 10 }}
             onPress={() => navigation.navigate("Registro")}>
@@ -130,7 +105,9 @@ const ListaUsuariosScreen: React.FC = ({ route, navigation }) => {
             onPress={() => {
               navigation.navigate("Registro");
             }}>
-            <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
+            <Text
+              // className="text-white text-center"
+              style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
               Atras
             </Text>
           </TouchableOpacity>

@@ -72,7 +72,7 @@ const DetalleUsuario: React.FC = ({ route, navigation }) => {
             style={{ ...globalStyles.button, borderRadius: 10 }}
             onPress={() => {
               navigation.navigate("ActulizarUsuarios", {
-                usuario: usuario._id,
+                usuario: usuario,
               });
             }}>
             <Text

@@ -51,6 +51,7 @@ const ActualizarUsuarioScreen: React.FC = ({ route, navigation }) => {
       };
 
       await updateUser(usuarioActualizado);
+
       Toast.show({
         type: "success",
         text1: "¡Éxito!",
