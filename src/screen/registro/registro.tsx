@@ -1,35 +1,27 @@
 import React, { useState } from "react";
 import {
   View,
-  TextInput,
-  Button,
-  StyleSheet,
   Text,
   Alert,
   TouchableOpacity,
   ImageBackground,
-  Image,
-  TouchableWithoutFeedback,
 } from "react-native";
 import globalStyles from "../../styles/globalStyles";
 import { registerUser } from "../../services/api/api.registro";
 import { useForm, Controller } from "react-hook-form";
 import InputField from "../../components/InputField";
 import ImageInputField from "../../components/ImageInputField";
-import ModalMensaje from "../../components/modal-mensaje";
+
 import Toast from "react-native-toast-message";
 import PasswordInputField from "../../components/PasswordInputField";
 
 const RegistroScreen: React.FC = ({ navigation }) => {
-  const [isSignUp, setIsSignUp] = useState(true);
-
   const {
     handleSubmit,
-    register,
+
     setValue,
     control,
     reset,
-    getValues,
 
     formState: { errors },
   } = useForm();
@@ -155,6 +147,14 @@ const RegistroScreen: React.FC = ({ navigation }) => {
             onPress={() => navigation.navigate("ListaUsuarios")}>
             <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
               Lista de usuarios
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ ...globalStyles.registroStilo, borderRadius: 10 }}
+            onPress={() => navigation.navigate("ScanQR")}>
+            <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
+              Pagar con codigo QR
             </Text>
           </TouchableOpacity>
 

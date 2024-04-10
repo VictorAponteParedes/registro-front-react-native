@@ -8,6 +8,7 @@ import ListaUsuariosScreen from "./src/screen/lista-usuario/lista-usuario";
 import ActualizarUsuarioScreen from "./src/screen/update/actualizar";
 import DetalleUsuario from "./src/screen/detalle-usuario/detalle-usuario";
 import { LoginUsuario } from "./src/screen/login/login";
+import { ScanQR } from "./src/screen/ScanQR/scanQR";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
           name="ActulizarUsuarios"
           component={ActualizarUsuarioScreen}
         />
+        <Stack.Screen name="ScanQR" component={ScanQR} />
       </Stack.Navigator>
       <Toast />
     </NavigationContainer>
